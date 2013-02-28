@@ -9,11 +9,13 @@ PORT = # TODO
 
 s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 s.connect((HOST, PORT))
-s.sendall('\\info\\')
-data = s.recv(256)
+s.sendall("\\info\\")
+data = s.recv(2048)
 s.close()
-serverinfo = repr(data)[3:-3].split("\\\\")
-if serverinfo[-1] == 'final' and (len(serverinfo) % 2) != 0:
+
+# Output
+serverinfo = data[1:-1].split("\\")
+if serverinfo[-1] == "final" and (len(serverinfo) % 2) != 0:
   pairs = zip(serverinfo[::2], serverinfo[1::2])
   for el in pairs:
     print el[0] + ": " + el[1]
